@@ -2,7 +2,7 @@
 
 var express = require('express')
 var router = express.Router()
-var doorstats = require('./door-sensors')
+var doorstats = require('./door-sensor')
 
 router.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html')
