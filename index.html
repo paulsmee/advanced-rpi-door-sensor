@@ -15,22 +15,22 @@
 <script>
 
 // The below is what I think I will use to get the data and make the doors open and close.
-    window.getFrontDoorStatus = function() {
-      $.get('/sensor/doors')
-        .done(function(value2) {
-          console.log(value2)
-          if(value2 === 0) // If the door is open, show as open
-          document.getElementById("frontDoorOpen").style.display = "block",
-          document.getElementById("frontDoorClosed").style.display = "none";
-          else // Otherwise close the door
-          document.getElementById("frontDoorOpen").style.display = "none",
-          document.getElementById("frontDoorClosed").style.display = "block";
-          }
-        })
-        .catch(function(err) {
-          console.log('uh oh')
-        });
-     }
+//    window.getFrontDoorStatus = function() {
+//      $.get('/sensor/doors')
+//        .done(function(value2) {
+//          console.log(value2)
+//          if(value2 === 0) // If the door is open, show as open
+//          document.getElementById("frontDoorOpen").style.display = "block",
+//          document.getElementById("frontDoorClosed").style.display = "none";
+//          else // Otherwise close the door
+//          document.getElementById("frontDoorOpen").style.display = "none",
+//          document.getElementById("frontDoorClosed").style.display = "block";
+//          }
+//        })
+//        .catch(function(err) {
+//          console.log('uh oh')
+//        });
+//     }
 
 
 //Front Door
