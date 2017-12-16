@@ -14,6 +14,7 @@
 
 <script>
 
+// The below is what I think I will use to get the data and make the doors open and close.
     window.getFrontDoorStatus = function() {
       $.get('/sensor/doors')
         .done(function(value2) {
