@@ -14,123 +14,186 @@
 
 <script>
 
-// The below is what I think I will use to get the data and make the doors open and close.
-//    window.getFrontDoorStatus = function() {
-//      $.get('/sensor/doors')
-//        .done(function(value2) {
-//          console.log(value2)
-//          if(value2 === 0) // If the door is open, show as open
-//          document.getElementById("frontDoorOpen").style.display = "block",
-//          document.getElementById("frontDoorClosed").style.display = "none";
-//          else // Otherwise close the door
-//          document.getElementById("frontDoorOpen").style.display = "none",
-//          document.getElementById("frontDoorClosed").style.display = "block";
-//          }
-//        })
-//        .catch(function(err) {
-//          console.log('uh oh')
-//        });
-//     }
+var doors = {
+  frontDoor: {
+    closed: {document.getElementById("frontDoorOpen").style.display = "none",document.getElementById("frontDoorClosed").style.display = "block"},
+    open: {document.getElementById("frontDoorOpen").style.display = "block",document.getElementById("frontDoorClosed").style.display = "none"}
+  },
+  towelCupboard: {
+    closed: {},
+    open: {}
+  },
+  powderRoom: {
+    closed: {},
+    open: {}
+  },
+  alfresco1: {
+    closed: {},
+    open: {}
+  },
+  alfresco2: {
+    closed: {},
+    open: {}
+  },
+  laundrySlideDoor: {
+    closed: {},
+    open: {}
+  },
+  linenCupboard: {
+    closed: {},
+    open: {}
+  },
+  garage1Door: {
+    closed: {},
+    open: {}
+  },
+  garage2Door: {
+    closed: {},
+    open: {}
+  },
+}
+
+
+function actionDoor(door, doorTargetState) {
+  let targetDoor = doors[door]
+  doorCurrentState = (doorTargetState === 'open') ? 'closed' : 'open'
+  document.getElementById("frontDoorOpen").style.display = "none",
+  document.getElementById("frontDoorClosed").style.display = "block"
+
+  // remove the closed door line
+  // context.beginPath();
+  // context.moveTo(...targetDoor[doorCurrentState].from);
+  // context.lineTo(...targetDoor[doorCurrentState].to);
+  // context.lineWidth = 11; // slightly wider to stop any residue outline blur
+  // context.strokeStyle = "#FFF";
+  // context.stroke();
+  // // add the open door line
+  // context.beginPath();
+  // context.moveTo(...targetDoor[doorTargetState].from);
+  // context.lineTo(...targetDoor[doorTargetState].to);
+  // context.lineWidth = 10;
+  // context.strokeStyle = targetDoor[doorTargetState].color;
+  // context.stroke();
+}
+
+     updateData()
+
+     // and every 5 seconds after
+     setInterval(updateData, 500);
+
+
+     function updateData() {
+       $.get('/sensor/doors')
+         .done(function(doorstats) {
+           Object.entries(doorstats).forEach(function([whichDoor, status]) {
+             var doorState = (status) ? 'open' : 'closed'
+             actionDoor(whichDoor, doorState)
+           })
+         })
+         .catch(function(err) {
+           alert('An Error Occured: ' + err.message)
+         });
+     }
 
 
 //Front Door
-function frontDoor() {
-var dOpen = document.getElementById("frontDoorOpen").style.display;
-if(dOpen === "none")
-document.getElementById("frontDoorOpen").style.display = "block",
-document.getElementById("frontDoorClosed").style.display = "none";
-else
-document.getElementById("frontDoorOpen").style.display = "none",
-document.getElementById("frontDoorClosed").style.display = "block";
-}
-
-// Towel Cupboard
-function towelDoor() {
-var dOpen = document.getElementById("towelCupboardOpen").style.display;
-if(dOpen === "none")
-document.getElementById("towelCupboardOpen").style.display = "block",
-document.getElementById("towelCupboardClosed").style.display = "none";
-else
-document.getElementById("towelCupboardOpen").style.display = "none",
-document.getElementById("towelCupboardClosed").style.display = "block";
-}
-
-// Alfresco 1
-function alf1Door() {
-var dOpen = document.getElementById("alfresco1Open").style.display;
-if(dOpen === "none")
-document.getElementById("alfresco1Open").style.display = "block",
-document.getElementById("alfresco1Closed").style.display = "none";
-else
-document.getElementById("alfresco1Open").style.display = "none",
-document.getElementById("alfresco1Closed").style.display = "block";
-}
-
-// Alfresco 2
-function alf2Door() {
-var dOpen = document.getElementById("alfresco2Open").style.display;
-if(dOpen === "none")
-document.getElementById("alfresco2Open").style.display = "block",
-document.getElementById("alfresco2Closed").style.display = "none";
-else
-document.getElementById("alfresco2Open").style.display = "none",
-document.getElementById("alfresco2Closed").style.display = "block";
-}
-
-// Powder Room
-function powderDoor() {
-var dOpen = document.getElementById("powderRoomOpen").style.display;
-if(dOpen === "none")
-document.getElementById("powderRoomOpen").style.display = "block",
-document.getElementById("powderRoomClosed").style.display = "none";
-else
-document.getElementById("powderRoomOpen").style.display = "none",
-document.getElementById("powderRoomClosed").style.display = "block";
-}
-
-// Laundry Sliding Door
-function laundrySlideDoor() {
-var dOpen = document.getElementById("laundry1Open").style.display;
-if(dOpen === "none")
-document.getElementById("laundry1Open").style.display = "block",
-document.getElementById("laundry1Closed").style.display = "none";
-else
-document.getElementById("laundry1Open").style.display = "none",
-document.getElementById("laundry1Closed").style.display = "block";
-}
-
-// Linen Closet Door
-function linenDoor() {
-var dOpen = document.getElementById("linenOpen").style.display;
-if(dOpen === "none")
-document.getElementById("linenOpen").style.display = "block",
-document.getElementById("linenClosed").style.display = "none";
-else
-document.getElementById("linenOpen").style.display = "none",
-document.getElementById("linenClosed").style.display = "block";
-}
-
-// Garage 1 Door
-function garage1Door() {
-var dOpen = document.getElementById("garage1Open").style.display;
-if(dOpen === "none")
-document.getElementById("garage1Open").style.display = "block",
-document.getElementById("garage1Closed").style.display = "none";
-else
-document.getElementById("garage1Open").style.display = "none",
-document.getElementById("garage1Closed").style.display = "block";
-}
-
-// Garage 2 Door
-function garage2Door() {
-var dOpen = document.getElementById("garage2Open").style.display;
-if(dOpen === "none")
-document.getElementById("garage2Open").style.display = "block",
-document.getElementById("garage2Closed").style.display = "none";
-else
-document.getElementById("garage2Open").style.display = "none",
-document.getElementById("garage2Closed").style.display = "block";
-}
+// function frontDoor() {
+// var dOpen = document.getElementById("frontDoorOpen").style.display;
+// if(dOpen === "none")
+// document.getElementById("frontDoorOpen").style.display = "block",
+// document.getElementById("frontDoorClosed").style.display = "none";
+// else
+// document.getElementById("frontDoorOpen").style.display = "none",
+// document.getElementById("frontDoorClosed").style.display = "block";
+// }
+//
+// // Towel Cupboard
+// function towelDoor() {
+// var dOpen = document.getElementById("towelCupboardOpen").style.display;
+// if(dOpen === "none")
+// document.getElementById("towelCupboardOpen").style.display = "block",
+// document.getElementById("towelCupboardClosed").style.display = "none";
+// else
+// document.getElementById("towelCupboardOpen").style.display = "none",
+// document.getElementById("towelCupboardClosed").style.display = "block";
+// }
+//
+// // Alfresco 1
+// function alf1Door() {
+// var dOpen = document.getElementById("alfresco1Open").style.display;
+// if(dOpen === "none")
+// document.getElementById("alfresco1Open").style.display = "block",
+// document.getElementById("alfresco1Closed").style.display = "none";
+// else
+// document.getElementById("alfresco1Open").style.display = "none",
+// document.getElementById("alfresco1Closed").style.display = "block";
+// }
+//
+// // Alfresco 2
+// function alf2Door() {
+// var dOpen = document.getElementById("alfresco2Open").style.display;
+// if(dOpen === "none")
+// document.getElementById("alfresco2Open").style.display = "block",
+// document.getElementById("alfresco2Closed").style.display = "none";
+// else
+// document.getElementById("alfresco2Open").style.display = "none",
+// document.getElementById("alfresco2Closed").style.display = "block";
+// }
+//
+// // Powder Room
+// function powderDoor() {
+// var dOpen = document.getElementById("powderRoomOpen").style.display;
+// if(dOpen === "none")
+// document.getElementById("powderRoomOpen").style.display = "block",
+// document.getElementById("powderRoomClosed").style.display = "none";
+// else
+// document.getElementById("powderRoomOpen").style.display = "none",
+// document.getElementById("powderRoomClosed").style.display = "block";
+// }
+//
+// // Laundry Sliding Door
+// function laundrySlideDoor() {
+// var dOpen = document.getElementById("laundry1Open").style.display;
+// if(dOpen === "none")
+// document.getElementById("laundry1Open").style.display = "block",
+// document.getElementById("laundry1Closed").style.display = "none";
+// else
+// document.getElementById("laundry1Open").style.display = "none",
+// document.getElementById("laundry1Closed").style.display = "block";
+// }
+//
+// // Linen Closet Door
+// function linenDoor() {
+// var dOpen = document.getElementById("linenOpen").style.display;
+// if(dOpen === "none")
+// document.getElementById("linenOpen").style.display = "block",
+// document.getElementById("linenClosed").style.display = "none";
+// else
+// document.getElementById("linenOpen").style.display = "none",
+// document.getElementById("linenClosed").style.display = "block";
+// }
+//
+// // Garage 1 Door
+// function garage1Door() {
+// var dOpen = document.getElementById("garage1Open").style.display;
+// if(dOpen === "none")
+// document.getElementById("garage1Open").style.display = "block",
+// document.getElementById("garage1Closed").style.display = "none";
+// else
+// document.getElementById("garage1Open").style.display = "none",
+// document.getElementById("garage1Closed").style.display = "block";
+// }
+//
+// // Garage 2 Door
+// function garage2Door() {
+// var dOpen = document.getElementById("garage2Open").style.display;
+// if(dOpen === "none")
+// document.getElementById("garage2Open").style.display = "block",
+// document.getElementById("garage2Closed").style.display = "none";
+// else
+// document.getElementById("garage2Open").style.display = "none",
+// document.getElementById("garage2Closed").style.display = "block";
+// }
 </script>
 
 <br><br>

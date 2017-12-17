@@ -5,19 +5,19 @@ var Gpio = require('pigpio').Gpio
 
 var doorstats = {}
 
-var doorOpen = _.throttle(function doorOpen(whichDoor, doorState) {
+var frontDoorOpen = _.throttle(function frontDoorOpen(whichDoor, doorState) {
     console.log(whichDoor + ' = ' + doorState)
     doorstats[whichDoor] = !doorState
 }, 200)
 
-var door1 = new Gpio(4, {
+var frontDoor = new Gpio(4, {
     mode: Gpio.INPUT,
     pullUpDown: Gpio.PUD_DOWN,
     edge: Gpio.EITHER_EDGE
 })
 
-door1.on('interrupt', function (level) {
-    doorOpen('door1', level)
+frontDoor.on('interrupt', function (level) {
+    frontDoorOpen('frontDoor', level)
 })
 
 
